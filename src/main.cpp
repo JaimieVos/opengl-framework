@@ -1,8 +1,8 @@
-#include <iostream>
+#include "engine.h"
 
 int main()
 {
-    std::cout << "Hello, World!" << std::endl;
+    Engine::get().init("OpenGL Framework", 1000, 800);
 	
     return 0;
 }

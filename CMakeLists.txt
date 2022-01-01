@@ -14,7 +14,10 @@ file(GLOB_RECURSE sources
 add_executable(opengl-framework ${sources})
 
 foreach(source IN LISTS sources)
+    get_filename_component(directory_name "${source}" DIRECTORY)
     get_filename_component(source_path "${source}" PATH ABSOLUTE)
+
+    target_include_directories(opengl-framework PUBLIC ${directory_name})
 
     file(RELATIVE_PATH
         item_path_rel
