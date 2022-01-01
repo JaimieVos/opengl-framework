@@ -2,6 +2,10 @@ cmake_minimum_required(VERSION 3.5 FATAL_ERROR)
 
 project(opengl-framework LANGUAGES CXX)
 
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CXX_EXTENSIONS OFF)
+
 file(GLOB_RECURSE sources
 	"src/*.h"
 	"src/*.cpp"
