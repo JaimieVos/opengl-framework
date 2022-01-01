@@ -12,7 +12,7 @@ public:
 	void init(const char* title, const int screenWidth, const int screenHeight);
 
 private:
-	GLFWwindow* window = nullptr;
+	GLFWwindow* m_Window = nullptr;
 
 private:
 	Engine() {}

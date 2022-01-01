@@ -58,13 +58,13 @@ Shader::Shader(const char* vertexPath, const char* fragmentPath)
 	parseShader(fragment, ShaderType::SHADER);
 
 	// Shader program linking
-	id = glCreateProgram();
+	m_Id = glCreateProgram();
 
-	glAttachShader(id, vertex);
-	glAttachShader(id, fragment);
-	glLinkProgram(id);
+	glAttachShader(m_Id, vertex);
+	glAttachShader(m_Id, fragment);
+	glLinkProgram(m_Id);
 
-	parseShader(id, ShaderType::PROGRAM);
+	parseShader(m_Id, ShaderType::PROGRAM);
 
 	glDeleteShader(vertex);
 	glDeleteShader(fragment);
@@ -72,7 +72,7 @@ Shader::Shader(const char* vertexPath, const char* fragmentPath)
 
 void Shader::bind() const
 {
-	glUseProgram(id);
+	glUseProgram(m_Id);
 }
 
 void Shader::unbind() const
@@ -82,12 +82,12 @@ void Shader::unbind() const
 
 int Shader::getLocation(const std::string& name) const
 {
-	if (locations.find(name) != locations.end())
-		return locations[name];
+	if (m_Locations.find(name) != m_Locations.end())
+		return m_Locations[name];
 
-	const int location = glGetUniformLocation(id, name.c_str());
+	const int location = glGetUniformLocation(m_Id, name.c_str());
 
-	locations[name] = location;
+	m_Locations[name] = location;
 
 	return location;
 }

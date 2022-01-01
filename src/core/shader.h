@@ -18,8 +18,8 @@ public:
 	void unbind() const;
 
 private:
-	unsigned int id;
-	mutable std::unordered_map<std::string, int> locations;
+	unsigned int m_Id;
+	mutable std::unordered_map<std::string, int> m_Locations;
 
 private:
 	int getLocation(const std::string& name) const;

@@ -21,14 +21,14 @@ void Engine::init(const char* title, const int screenWidth, const int screenHeig
 	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 #endif
 
-	window = glfwCreateWindow(screenWidth, screenHeight, title, NULL, NULL);
-	if (!window)
+	m_Window = glfwCreateWindow(screenWidth, screenHeight, title, NULL, NULL);
+	if (!m_Window)
 	{
 		logger::error("Failed to initialize GLFW window");
 		return destroy();
 	}
 
-	glfwMakeContextCurrent(window);
+	glfwMakeContextCurrent(m_Window);
 	glfwSwapInterval(0);
 
 	// Initialize GLEW
@@ -43,7 +43,7 @@ void Engine::init(const char* title, const int screenWidth, const int screenHeig
 
 void Engine::run()
 {
-	while (!glfwWindowShouldClose(window))
+	while (!glfwWindowShouldClose(m_Window))
 	{
 		update();
 	}
@@ -51,20 +51,20 @@ void Engine::run()
 
 void Engine::update()
 {
-	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
-		glfwSetWindowShouldClose(window, GLFW_TRUE);
+	if (glfwGetKey(m_Window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+		glfwSetWindowShouldClose(m_Window, GLFW_TRUE);
 
 	glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT);
 
-	glfwSwapBuffers(window);
+	glfwSwapBuffers(m_Window);
 	glfwPollEvents();
 }
 
 void Engine::destroy()
 {
-	if (window != nullptr)
-		glfwDestroyWindow(window);
+	if (m_Window != nullptr)
+		glfwDestroyWindow(m_Window);
 
 	glfwTerminate();
 }
