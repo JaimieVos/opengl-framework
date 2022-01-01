@@ -1,5 +1,7 @@
 ﻿#include "engine.h"
 
+#include "logger.h"
+
 Engine& Engine::get()
 {
     static Engine instance;
@@ -20,8 +22,9 @@ void Engine::init(const char* title, const int screenWidth, const int screenHeig
 #endif
 
 	window = glfwCreateWindow(screenWidth, screenHeight, title, NULL, NULL);
-	if (!window)
+	if (window)
 	{
+		logger::error("Failed to initialize GLFW window");
 		return destroy();
 	}
 
@@ -31,6 +34,7 @@ void Engine::init(const char* title, const int screenWidth, const int screenHeig
 	// Initialize GLEW
 	if (glewInit() != GLEW_OK)
 	{
+		logger::error("Failed to initialize GLEW");
 		return destroy();
 	}
 
