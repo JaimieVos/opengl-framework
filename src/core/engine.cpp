@@ -22,7 +22,7 @@ void Engine::init(const char* title, const int screenWidth, const int screenHeig
 #endif
 
 	window = glfwCreateWindow(screenWidth, screenHeight, title, NULL, NULL);
-	if (window)
+	if (!window)
 	{
 		logger::error("Failed to initialize GLFW window");
 		return destroy();
