@@ -4,8 +4,6 @@
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
 
-#include "engine.h"
-
 enum CameraMovement
 {
 	FORWARD,

@@ -17,13 +17,13 @@ public:
 	void onMouseScroll(GLFWwindow* window, const double xOffset, const double yOffset) override;
 
 private:
-	std::shared_ptr<Shader> shader;
-	std::shared_ptr<VAO> vao;
+	std::shared_ptr<Shader> m_Shader;
+	std::shared_ptr<VAO> m_Vao;
 
-	Camera camera{ glm::vec3(0.0f, 0.0f, 3.0f) };
-	glm::mat4 projection;
-	glm::mat4 model;
-	glm::mat4 view;
+	Camera m_Camera{ glm::vec3(0.0f, 0.0f, 3.0f) };
+	glm::mat4 m_Projection;
+	glm::mat4 m_Model;
+	glm::mat4 m_View;
 
 	float m_Alpha = 0.2f;
 };

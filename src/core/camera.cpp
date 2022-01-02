@@ -45,8 +45,8 @@ void Camera::userInput(const float dt)
 
 void Camera::processMouseMovement(const double xPos, const double yPos)
 {
-	float xOffset = xPos - m_LastX;
-	float yOffset = m_LastY - yPos;
+	double xOffset = xPos - m_LastX;
+	double yOffset = m_LastY - yPos;
 
 	m_LastX = xPos;
 	m_LastY = yPos;

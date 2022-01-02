@@ -2,11 +2,10 @@
 
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
-
-#include "scene.h"
-
 #include <iostream>
 #include <memory.h>
+
+#include "scene.h"
 
 #define SCREEN_WIDTH 1000
 #define SCREEN_HEIGHT 800
