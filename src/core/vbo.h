@@ -20,10 +20,10 @@ public:
 	unsigned int getStride() const;
 
 	template<typename T>
-	void push(unsigned int count) = delete;
+	void push(const unsigned int count) = delete;
 
 	template<>
-	void push<float>(unsigned int count)
+	void push<float>(const unsigned int count)
 	{
 		VertexBufferElement e { GL_FLOAT, count, GL_FALSE };
 
@@ -32,7 +32,7 @@ public:
 	}
 
 	template<>
-	void push<unsigned int>(unsigned int count)
+	void push<unsigned int>(const unsigned int count)
 	{
 		VertexBufferElement e{ GL_UNSIGNED_INT, count, GL_FALSE };
 
@@ -41,7 +41,7 @@ public:
 	}
 
 	template<>
-	void push<unsigned char>(unsigned int count)
+	void push<unsigned char>(const unsigned int count)
 	{
 		VertexBufferElement e{ GL_UNSIGNED_BYTE, count, GL_TRUE };
 
