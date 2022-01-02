@@ -1,6 +1,7 @@
 #include "example.h"
 
 #include <GL/glew.h>
+#include <glm/gtc/matrix_transform.hpp>
 
 #include "ogl/vbo.h"
 #include "ogl/ibo.h"
@@ -10,9 +11,6 @@
 
 void ExampleScene::start()
 {
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
 	const float vertices[] = {
 		// Position		// Color				// TexCoords
 		0.5f,  0.5f,	0.25f, 0.25f, 0.25f,	1.0f, 1.0f, // Top right
@@ -25,6 +23,8 @@ void ExampleScene::start()
 		0, 1, 3,
 		1, 2, 3
 	};
+
+	camera.start();
 
 	shader = std::make_shared<Shader>("assets/shaders/vertex_shader.vert", "assets/shaders/fragment_shader.frag");
 	vao = std::make_shared<VAO>();
@@ -60,7 +60,20 @@ void ExampleScene::update(const float dt)
 	glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT);
 
+	camera.update(dt);
+
+	projection = glm::perspective(glm::radians(camera.zoom), float(SCREEN_WIDTH) / float(SCREEN_HEIGHT), 0.1f, 100.0f);
+
+	view = glm::mat4(1.0f);
+	view = camera.getViewMatrix();
+
 	shader->bind();
+	shader->setMatrix4f("u_Projection", projection);
+	shader->setMatrix4f("u_View", view);
+
+	model = glm::mat4(1.0f);
+	shader->setMatrix4f("u_Model", model);
+
 	shader->setFloat("u_Alpha", m_Alpha);
 
 	ImGui::Begin("Properties");
@@ -69,4 +82,14 @@ void ExampleScene::update(const float dt)
 
 	vao->bind();
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+}
+
+void ExampleScene::onMousePositionChange(GLFWwindow* window, const double xPos, const double yPos)
+{
+	camera.processMouseMovement(xPos, yPos);
+}
+
+void ExampleScene::onMouseScroll(GLFWwindow* window, const double xOffset, const double yOffset)
+{
+	camera.processMouseScroll(yOffset);
 }
