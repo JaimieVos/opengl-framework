@@ -2,6 +2,9 @@
 
 #include "util/logger.h"
 
+#define STB_IMAGE_IMPLEMENTATION
+#include <stb_image.h>
+
 #include <imgui.h>
 #include <backends/imgui_impl_glfw.h>
 #include <backends/imgui_impl_opengl3.h>
@@ -44,6 +47,8 @@ void Engine::init(const char* title, const int screenWidth, const int screenHeig
 		return destroy();
 	}
 
+	stbi_set_flip_vertically_on_load(true);
+
 	// ImGui
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
@@ -79,8 +84,9 @@ void Engine::run()
 	catch (const std::exception& exception)
 	{
 		logger::error(exception.what());
-		destroy();
 	}
+
+	destroy();
 }
 
 void Engine::update(const float dt)

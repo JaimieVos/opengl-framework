@@ -4,7 +4,6 @@
 
 #include "ogl/shader.h"
 #include "ogl/vao.h"
-#include "ogl/vbo.h"
 
 #include <memory>
 
@@ -17,7 +16,6 @@ public:
 private:
 	std::shared_ptr<Shader> shader;
 	std::shared_ptr<VAO> vao;
-	std::shared_ptr<VBO> vbo;
 
 	float m_Alpha = 0.2f;
 };
