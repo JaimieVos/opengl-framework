@@ -2,6 +2,12 @@
 
 #include "util/logger.h"
 
+#include <imgui.h>
+#include <backends/imgui_impl_glfw.h>
+#include <backends/imgui_impl_opengl3.h>
+
+#define GLSL_VERSION "#version 330"
+
 Engine& Engine::get()
 {
     static Engine instance;
@@ -38,6 +44,16 @@ void Engine::init(const char* title, const int screenWidth, const int screenHeig
 		return destroy();
 	}
 
+	// ImGui
+	IMGUI_CHECKVERSION();
+	ImGui::CreateContext();
+	ImGuiIO& io = ImGui::GetIO();
+
+	ImGui_ImplGlfw_InitForOpenGL(m_Window, true);
+	ImGui_ImplOpenGL3_Init(GLSL_VERSION);
+
+	ImGui::StyleColorsClassic();
+
 	m_Scene = scene;
 
 	run();
@@ -69,10 +85,17 @@ void Engine::run()
 
 void Engine::update(const float dt)
 {
+	ImGui_ImplOpenGL3_NewFrame();
+	ImGui_ImplGlfw_NewFrame();
+	ImGui::NewFrame();
+
 	if (glfwGetKey(m_Window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
 		glfwSetWindowShouldClose(m_Window, GLFW_TRUE);
 
 	m_Scene->update(dt);
+
+	ImGui::Render();
+	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
 	glfwSwapBuffers(m_Window);
 	glfwPollEvents();
@@ -80,6 +103,10 @@ void Engine::update(const float dt)
 
 void Engine::destroy()
 {
+	ImGui_ImplOpenGL3_Shutdown();
+	ImGui_ImplGlfw_Shutdown();
+	ImGui::DestroyContext();
+
 	if (m_Window != nullptr)
 		glfwDestroyWindow(m_Window);
 

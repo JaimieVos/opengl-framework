@@ -43,5 +43,39 @@ target_link_libraries(opengl-framework PRIVATE libglew_static)
 add_subdirectory(${PROJECT_SOURCE_DIR}/vendor/glm EXCLUDE_FROM_ALL)
 target_link_libraries(opengl-framework PRIVATE glm)
 
+# ImGUI
+set(imgui_sources
+    ${PROJECT_SOURCE_DIR}/vendor/imgui/imgui.cpp
+    ${PROJECT_SOURCE_DIR}/vendor/imgui/imgui_demo.cpp
+    ${PROJECT_SOURCE_DIR}/vendor/imgui/imgui_draw.cpp
+    ${PROJECT_SOURCE_DIR}/vendor/imgui/imgui_tables.cpp
+    ${PROJECT_SOURCE_DIR}/vendor/imgui/imgui_widgets.cpp
+    ${PROJECT_SOURCE_DIR}/vendor/imgui/backends/imgui_impl_glfw.cpp
+    ${PROJECT_SOURCE_DIR}/vendor/imgui/backends/imgui_impl_opengl3.cpp
+)
+
+set(imgui_headers
+    ${PROJECT_SOURCE_DIR}/vendor/imgui/imconfig.h
+    ${PROJECT_SOURCE_DIR}/vendor/imgui/imgui.h
+    ${PROJECT_SOURCE_DIR}/vendor/imgui/imgui_internal.h
+    ${PROJECT_SOURCE_DIR}/vendor/imgui/imstb_rectpack.h
+    ${PROJECT_SOURCE_DIR}/vendor/imgui/imstb_textedit.h
+    ${PROJECT_SOURCE_DIR}/vendor/imgui/imstb_truetype.h
+    ${PROJECT_SOURCE_DIR}/vendor/imgui/backends/imgui_impl_glfw.h
+    ${PROJECT_SOURCE_DIR}/vendor/imgui/backends/imgui_impl_opengl3.h
+)
+
+add_library(ImGui STATIC
+    ${imgui_sources}
+    ${imgui_headers}
+)
+
+target_include_directories(ImGui PUBLIC
+    ${PROJECT_SOURCE_DIR}/vendor/glfw/include
+    ${PROJECT_SOURCE_DIR}/vendor/imgui
+)
+
+target_link_libraries(opengl-framework PRIVATE ImGui)
+
 # Assets folder
 file(COPY assets/ DESTINATION ${CMAKE_BINARY_DIR}/assets)

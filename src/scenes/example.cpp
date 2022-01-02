@@ -2,6 +2,8 @@
 
 #include <GL/glew.h>
 
+#include <imgui.h>
+
 void ExampleScene::start()
 {
 	glEnable(GL_BLEND);
@@ -38,7 +40,11 @@ void ExampleScene::update(const float dt)
 	glClear(GL_COLOR_BUFFER_BIT);
 
 	shader->bind();
-	shader->setFloat("u_Alpha", 0.2f);
+	shader->setFloat("u_Alpha", m_Alpha);
+
+	ImGui::Begin("Properties");
+	ImGui::SliderFloat("Alpha", &m_Alpha, 0, 1);
+	ImGui::End();
 
 	vao->bind();
 	glDrawArrays(GL_TRIANGLES, 0, 3);
