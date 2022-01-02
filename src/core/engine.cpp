@@ -43,9 +43,17 @@ void Engine::init(const char* title, const int screenWidth, const int screenHeig
 
 void Engine::run()
 {
-	while (!glfwWindowShouldClose(m_Window))
+	try
 	{
-		update();
+		while (!glfwWindowShouldClose(m_Window))
+		{
+			update();
+		}
+	}
+	catch (const std::exception& exception)
+	{
+		logger::error(exception.what());
+		destroy();
 	}
 }
 

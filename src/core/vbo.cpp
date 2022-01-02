@@ -2,6 +2,8 @@
 
 #include "util/logger.h"
 
+#include <stdexcept>
+
 std::vector<VertexBufferElement> VertexBufferLayout::getElements() const
 {
 	return m_Elements;
@@ -21,7 +23,7 @@ unsigned int VertexBufferElement::getSizeOfType(unsigned int type)
 	case GL_UNSIGNED_BYTE: return sizeof(unsigned char);
 	}
 
-	logger::error("Passed an invalid type to VertexBufferElement::getSizeOfType");
+	throw std::invalid_argument("Passed an invalid type to VertexBufferElement::getSizeOfType");
 
 	return 0;
 }
