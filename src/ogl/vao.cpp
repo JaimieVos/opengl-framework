@@ -27,7 +27,7 @@ void VAO::addBuffer(const VBO& vbo, const VertexBufferLayout& vbl) const
 	{
 		VertexBufferElement vbe = vbl.getElements()[i];
 
-		glVertexAttribPointer(i, vbe.count, vbe.type, vbe.normalized, vbl.getStride(), (void*)offset);
+		glVertexAttribPointer(i, vbe.count, vbe.type, vbe.normalized, vbl.getStride(), (void*)static_cast<size_t>(offset));
 		glEnableVertexAttribArray(i);
 
 		offset += vbe.count * VertexBufferElement::getSizeOfType(vbe.type);

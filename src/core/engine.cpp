@@ -9,7 +9,7 @@ Engine& Engine::get()
     return instance;
 }
 
-void Engine::init(const char* title, const int screenWidth, const int screenHeight)
+void Engine::init(const char* title, const int screenWidth, const int screenHeight, const std::shared_ptr<Scene>& scene)
 {
 	// Initialize GLFW
     glfwInit();
@@ -38,16 +38,26 @@ void Engine::init(const char* title, const int screenWidth, const int screenHeig
 		return destroy();
 	}
 
+	m_Scene = scene;
+
 	run();
 }
 
 void Engine::run()
 {
+	float deltaTime = 0.0f;
+	float lastFrame = 0.0f;
+
 	try
 	{
+		m_Scene->start();
+
 		while (!glfwWindowShouldClose(m_Window))
 		{
-			update();
+			deltaTime = static_cast<float>(glfwGetTime() - lastFrame);
+			lastFrame = static_cast<float>(glfwGetTime());
+
+			update(deltaTime);
 		}
 	}
 	catch (const std::exception& exception)
@@ -57,13 +67,12 @@ void Engine::run()
 	}
 }
 
-void Engine::update()
+void Engine::update(const float dt)
 {
 	if (glfwGetKey(m_Window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
 		glfwSetWindowShouldClose(m_Window, GLFW_TRUE);
 
-	glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
-	glClear(GL_COLOR_BUFFER_BIT);
+	m_Scene->update(dt);
 
 	glfwSwapBuffers(m_Window);
 	glfwPollEvents();
