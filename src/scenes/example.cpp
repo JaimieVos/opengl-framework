@@ -2,10 +2,11 @@
 
 #include <GL/glew.h>
 
-#include "util/logger.h"
-
 void ExampleScene::start()
 {
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
 	const float vertices[] = {
 		// Position		// Color
 		0.0f,  0.5f,	1.0f, 0.0f, 0.0f,
@@ -37,6 +38,8 @@ void ExampleScene::update(const float dt)
 	glClear(GL_COLOR_BUFFER_BIT);
 
 	shader->bind();
+	shader->setFloat("u_Alpha", 0.2f);
+
 	vao->bind();
 	glDrawArrays(GL_TRIANGLES, 0, 3);
 }
