@@ -1,10 +1,9 @@
 #include "texture.h"
 
 #include <GL/glew.h>
+#include <stb_image.h>
 
 #include "util/logger.h"
-
-#include <stb_image.h>
 
 Texture::Texture(const char* path, const ImageType imageType, const unsigned int textureUnit)
 	: m_TextureUnit(textureUnit)

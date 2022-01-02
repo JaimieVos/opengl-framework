@@ -9,3 +9,13 @@ void Scene::update(const float dt)
 {
 
 }
+
+void Scene::onMousePositionChange(GLFWwindow* window, const double xPos, const double yPos)
+{
+
+}
+
+void Scene::onMouseScroll(GLFWwindow* window, const double xOffset, const double yOffset)
+{
+
+}

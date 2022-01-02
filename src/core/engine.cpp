@@ -18,7 +18,17 @@ Engine& Engine::get()
     return instance;
 }
 
-void Engine::init(const char* title, const int screenWidth, const int screenHeight, const std::shared_ptr<Scene>& scene)
+GLFWwindow* Engine::getWindow() const
+{
+	return m_Window;
+}
+
+std::shared_ptr<Scene> Engine::getScene() const
+{
+	return m_Scene;
+}
+
+void Engine::init(const char* title, const std::shared_ptr<Scene>& scene)
 {
 	// Initialize GLFW
     glfwInit();
@@ -30,7 +40,7 @@ void Engine::init(const char* title, const int screenWidth, const int screenHeig
 	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 #endif
 
-	m_Window = glfwCreateWindow(screenWidth, screenHeight, title, NULL, NULL);
+	m_Window = glfwCreateWindow(SCREEN_WIDTH, SCREEN_HEIGHT, title, NULL, NULL);
 	if (!m_Window)
 	{
 		logger::error("Failed to initialize GLFW window");
@@ -39,6 +49,13 @@ void Engine::init(const char* title, const int screenWidth, const int screenHeig
 
 	glfwMakeContextCurrent(m_Window);
 	glfwSwapInterval(0);
+
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+	glfwSetFramebufferSizeCallback(m_Window, framebufferSizeCallback);
+	glfwSetCursorPosCallback(m_Window, mouseCursorPositionCallback);
+	glfwSetScrollCallback(m_Window, mouseScrollPositionCallback);
 
 	// Initialize GLEW
 	if (glewInit() != GLEW_OK)
@@ -117,4 +134,19 @@ void Engine::destroy()
 		glfwDestroyWindow(m_Window);
 
 	glfwTerminate();
+}
+
+void framebufferSizeCallback(GLFWwindow* window, int width, int height)
+{
+	glViewport(0, 0, width, height);
+}
+
+void mouseCursorPositionCallback(GLFWwindow* window, double xPos, double yPos)
+{
+	Engine::get().getScene()->onMousePositionChange(window, xPos, yPos);
+}
+
+void mouseScrollPositionCallback(GLFWwindow* window, double xOffset, double yOffset)
+{
+	Engine::get().getScene()->onMouseScroll(window, xOffset, yOffset);
 }

@@ -1,11 +1,10 @@
 #include "shader.h"
 
 #include <GL/glew.h>
+#include <glm/gtc/type_ptr.hpp>
 
 #include "util/logger.h"
 #include "io/file_stream.h"
-
-#include <glm/gtc/type_ptr.hpp>
 
 Shader::Shader(const char* vertexPath, const char* fragmentPath)
 {
