@@ -9,6 +9,7 @@ set(CXX_EXTENSIONS OFF)
 file(GLOB_RECURSE sources
 	"src/*.h"
 	"src/*.cpp"
+    "assets/*.*"
 )
 
 add_executable(opengl-framework ${sources})
@@ -41,3 +42,6 @@ target_link_libraries(opengl-framework PRIVATE libglew_static)
 # GLM
 add_subdirectory(${PROJECT_SOURCE_DIR}/vendor/glm EXCLUDE_FROM_ALL)
 target_link_libraries(opengl-framework PRIVATE glm)
+
+# Assets folder
+file(COPY assets/ DESTINATION ${CMAKE_BINARY_DIR}/assets)
