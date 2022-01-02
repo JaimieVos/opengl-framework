@@ -7,14 +7,17 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CXX_EXTENSIONS OFF)
 
 file(GLOB_RECURSE sources
-	"src/*.h"
-	"src/*.cpp"
+    "src/*.h"
+    "src/*.cpp"
     "assets/*.*"
 )
 
 add_executable(opengl-framework ${sources})
 
-target_include_directories(opengl-framework PUBLIC ${PROJECT_SOURCE_DIR}/src)
+target_include_directories(opengl-framework PUBLIC 
+    ${PROJECT_SOURCE_DIR}/src
+    ${PROJECT_SOURCE_DIR}/vendor/stb_image
+)
 
 foreach(source IN LISTS sources)
     get_filename_component(source_path "${source}" PATH ABSOLUTE)
