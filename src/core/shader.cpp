@@ -3,38 +3,12 @@
 #include <GL/glew.h>
 
 #include "util/logger.h"
-
-#include <iostream>
-#include <fstream>
-#include <sstream>
+#include "io/file_stream.h"
 
 Shader::Shader(const char* vertexPath, const char* fragmentPath)
 {
-	std::string vertexCode, fragmentCode;
-	std::ifstream vertexShaderFile, fragmentShaderFile;
-
-	vertexShaderFile.exceptions(std::ifstream::failbit | std::ifstream::badbit);
-	fragmentShaderFile.exceptions(std::ifstream::failbit | std::ifstream::badbit);
-
-	try
-	{
-		vertexShaderFile.open(vertexPath);
-		fragmentShaderFile.open(fragmentPath);
-
-		std::stringstream vertexShaderStream, fragmentShaderStream;
-		vertexShaderStream << vertexShaderFile.rdbuf();
-		fragmentShaderStream << fragmentShaderFile.rdbuf();
-
-		vertexShaderFile.close();
-		fragmentShaderFile.close();
-
-		vertexCode = vertexShaderStream.str();
-		fragmentCode = fragmentShaderStream.str();
-	}
-	catch (const std::ifstream::failure& exception)
-	{
-		logger::error(exception.what());
-	}
+	std::string vertexCode = file_stream::readFile(vertexPath);
+	std::string fragmentCode = file_stream::readFile(fragmentPath);
 
 	const char* vertexShaderCode = vertexCode.c_str();
 	const char* fragmentShaderCode = fragmentCode.c_str();
