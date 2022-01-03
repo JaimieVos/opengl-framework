@@ -8,3 +8,10 @@ cd build
 cmake ..
 cmake --build .
 ```
+
+## Included dependencies
+- OpenGL loader [GLEW](http://glew.sourceforge.net/)
+- Window and input system: [GLFW](https://www.glfw.org/)
+- Math: [GLM](https://github.com/g-truc/glm)
+- Image loading: [stb](https://github.com/nothings/stb)
+- GUI: [Dear ImGui](https://github.com/ocornut/imgui)
