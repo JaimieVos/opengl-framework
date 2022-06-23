@@ -15,3 +15,4 @@ cmake --build .
 - Math: [GLM](https://github.com/g-truc/glm)
 - Image loading: [stb](https://github.com/nothings/stb)
 - GUI: [Dear ImGui](https://github.com/ocornut/imgui)
+- Loading 3D objects: [Assimp](https://github.com/assimp/assimp/)

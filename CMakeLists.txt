@@ -46,6 +46,11 @@ target_link_libraries(opengl-framework PRIVATE libglew_static)
 add_subdirectory(${PROJECT_SOURCE_DIR}/vendor/glm EXCLUDE_FROM_ALL)
 target_link_libraries(opengl-framework PRIVATE glm)
 
+# Assimp
+add_subdirectory(${PROJECT_SOURCE_DIR}/vendor/assimp EXCLUDE_FROM_ALL)
+target_include_directories(opengl-framework PUBLIC {PROJECT_SOURCE_DIR}/assimp/include)
+target_link_libraries(opengl-framework PRIVATE assimp)
+
 # ImGUI
 set(imgui_sources
     ${PROJECT_SOURCE_DIR}/vendor/imgui/imgui.cpp
