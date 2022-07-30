@@ -4,18 +4,15 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <imgui.h>
 
-#include "ogl/vbo.h"
-#include "ogl/ibo.h"
 #include "ogl/texture.h"
 
 void ExampleScene::start()
 {
-	const float vertices[] = {
-		// Position		// Color				// TexCoords
-		0.5f,  0.5f,	0.25f, 0.25f, 0.25f,	1.0f, 1.0f, // Top right
-	    0.5f, -0.5f,	0.50f, 0.50f, 0.50f,	1.0f, 0.0f, // Bottom right
-	   -0.5f, -0.5f,	0.75f, 0.75f, 0.75f,	0.0f, 0.0f, // Bottom left
-	   -0.5f,  0.5f,	1.0f,   1.0f,  1.0f,	0.0f, 1.0f  // Top left
+	const Vertex vertices[]{
+		Vertex { glm::vec2(0.5f, 0.5f),   glm::vec3(0.25f, 0.25f, 0.25f), glm::vec2(1.0f, 1.0f) },
+		Vertex { glm::vec2(0.5f, -0.5f),  glm::vec3(0.50f, 0.50f, 0.50f), glm::vec2(1.0f, 0.0f) },
+		Vertex { glm::vec2(-0.5f, -0.5f), glm::vec3(0.75f, 0.75f, 0.75f), glm::vec2(0.0f, 0.0f) },
+		Vertex { glm::vec2(-0.5f, 0.5f),  glm::vec3(1.0f,   1.0f,  1.0f), glm::vec2(0.0f, 1.0f) }
 	};
 
 	const unsigned int indices[] = {
@@ -23,35 +20,20 @@ void ExampleScene::start()
 		1, 2, 3
 	};
 
+	const Texture textures[] {
+		Texture { "assets/textures/wall.jpg", ImageType::DIFFUSE, ImageFormat::JPG, 0 },
+		Texture { "assets/textures/smile.png", ImageType::DIFFUSE, ImageFormat::PNG, 1 }
+	};
+
+	std::vector<Vertex> verts(std::begin(vertices), std::end(vertices));
+	std::vector<unsigned int> ind(std::begin(indices), std::end(indices));
+	std::vector<Texture> tex(std::begin(textures), std::end(textures));
+
+	m_Mesh = std::make_shared<Mesh>(verts, ind, tex);
+
 	m_Camera.start();
 
 	m_Shader = std::make_shared<Shader>("assets/shaders/vertex_shader.vert", "assets/shaders/fragment_shader.frag");
-	m_Vao = std::make_shared<VAO>();
-	VBO vbo;
-	IBO ibo;
-
-	m_Vao->bind();
-
-	vbo.bind();
-	vbo.data(vertices, sizeof(vertices));
-
-	ibo.bind();
-	ibo.data(indices, sizeof(indices));
-
-	VertexBufferLayout vbl;
-	vbl.push<float>(2);
-	vbl.push<float>(3);
-	vbl.push<float>(2);
-
-	m_Vao->addBuffer(vbo, vbl);
-	m_Vao->unbind();
-
-	Texture wallTexture("assets/textures/wall.jpg", ImageType::JPG, 0);
-	Texture smileTexture("assets/textures/smile.png", ImageType::PNG, 1);
-
-	m_Shader->bind();
-	m_Shader->setInt("u_Texture1", 0);
-	m_Shader->setInt("u_Texture2", 1);
 }
 
 void ExampleScene::update(const float dt)
@@ -61,7 +43,7 @@ void ExampleScene::update(const float dt)
 
 	m_Camera.update(dt);
 
-	m_Projection = glm::perspective(glm::radians(m_Camera.zoom), float(SCREEN_WIDTH) / float(SCREEN_HEIGHT), 0.1f, 100.0f);
+	m_Projection = glm::perspective(glm::radians(m_Camera.m_Zoom), float(SCREEN_WIDTH) / float(SCREEN_HEIGHT), 0.1f, 100.0f);
 
 	m_View = glm::mat4(1.0f);
 	m_View = m_Camera.getViewMatrix();
@@ -79,8 +61,7 @@ void ExampleScene::update(const float dt)
 	ImGui::SliderFloat("Alpha", &m_Alpha, 0, 1);
 	ImGui::End();
 
-	m_Vao->bind();
-	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+	m_Mesh->draw(*m_Shader);
 }
 
 void ExampleScene::onMousePositionChange(GLFWwindow* window, const double xPos, const double yPos)

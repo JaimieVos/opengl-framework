@@ -24,20 +24,20 @@ class Camera
 {
 public:
 	// Camera attributes
-	glm::vec3 position;
-	glm::vec3 front;
-	glm::vec3 up;
-	glm::vec3 right;
-	glm::vec3 worldUp;
+	glm::vec3 m_Position;
+	glm::vec3 m_Front;
+	glm::vec3 m_Up;
+	glm::vec3 m_Right;
+	glm::vec3 m_WorldUp;
 
 	// Eular angles
-	float yaw;
-	float pitch;
+	float m_Yaw;
+	float m_Pitch;
 
 	// Camera options
-	float movementSpeed;
-	float mouseSensitivity;
-	float zoom;
+	float m_MovementSpeed;
+	float m_MouseSensitivity;
+	float m_Zoom;
 
 public:
 	Camera(const glm::vec3 position = glm::vec3(0.0f), const glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f), const float yaw = YAW, const float pitch = PITCH);

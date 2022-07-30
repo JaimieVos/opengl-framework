@@ -3,7 +3,7 @@
 #include "core/scene.h"
 #include "core/engine.h"
 #include "ogl/shader.h"
-#include "ogl/vao.h"
+#include "ogl/mesh.h"
 
 #include <memory>
 #include <glm/glm.hpp>
@@ -18,7 +18,7 @@ public:
 
 private:
 	std::shared_ptr<Shader> m_Shader;
-	std::shared_ptr<VAO> m_Vao;
+	std::shared_ptr<Mesh> m_Mesh;
 
 	Camera m_Camera{ glm::vec3(0.0f, 0.0f, 3.0f) };
 	glm::mat4 m_Projection;

@@ -5,8 +5,8 @@
 
 #include "util/logger.h"
 
-Texture::Texture(const char* path, const ImageType imageType, const unsigned int textureUnit)
-	: m_TextureUnit(textureUnit)
+Texture::Texture(const char* path, const ImageType imageType, const ImageFormat imageFormat, const unsigned int textureUnit)
+	: m_ImageType(imageType), m_TextureUnit(textureUnit)
 {
 	glGenTextures(1, &m_Id);
 	glActiveTexture(GL_TEXTURE0 + m_TextureUnit);
@@ -21,9 +21,9 @@ Texture::Texture(const char* path, const ImageType imageType, const unsigned int
 	unsigned char* data = stbi_load(path, &width, &height, &nrChannels, 0);
 	if (data)
 	{
-		if (imageType == ImageType::JPG)
+		if (imageFormat == ImageFormat::JPG)
 			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
-		else if (imageType == ImageType::PNG)
+		else if (imageFormat == ImageFormat::PNG)
 			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
 		glGenerateMipmap(GL_TEXTURE_2D);
 	}
@@ -45,4 +45,24 @@ void Texture::unbind() const
 {
 	glActiveTexture(0);
 	glBindTexture(GL_TEXTURE_2D, 0);
+}
+
+const ImageType Texture::getImageType() const
+{
+	return m_ImageType;
+}
+
+const char* imageTypeToString(const ImageType imageType)
+{
+	switch (imageType)
+	{
+	case ImageType::DIFFUSE:
+		return "diffuse";
+		break;
+	case ImageType::SPECULAR:
+		return "specular";
+		break;
+	default:
+		throw std::runtime_error("Invalid image type");
+	}
 }
