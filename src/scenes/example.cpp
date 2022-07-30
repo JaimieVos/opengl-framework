@@ -56,9 +56,12 @@ void ExampleScene::update(const float dt)
 	m_Shader->setMatrix4f("u_Model", m_Model);
 
 	m_Shader->setFloat("u_Alpha", m_Alpha);
+	m_Shader->setInt("u_Smiley", smiley);
 
 	ImGui::Begin("Properties");
-	ImGui::SliderFloat("Alpha", &m_Alpha, 0, 1);
+	ImGui::Checkbox("Smiley texture", &smiley);
+	if (smiley)
+		ImGui::SliderFloat("Alpha", &m_Alpha, 0, 1);
 	ImGui::End();
 
 	m_Mesh->draw(*m_Shader);

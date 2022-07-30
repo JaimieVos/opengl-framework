@@ -6,11 +6,15 @@ in vec2 v_TexCoords;
 out vec4 FragColor;
 
 uniform float u_Alpha;
+uniform bool u_Smiley;
 
 uniform sampler2D diffuse0;
 uniform sampler2D diffuse1;
 
 void main()
 {
-	FragColor = mix(texture(diffuse0, v_TexCoords), texture(diffuse1, v_TexCoords), 0.2) * vec4(1.0, 1.0, 1.0, u_Alpha);
+	if (u_Smiley)
+		FragColor = mix(texture(diffuse0, v_TexCoords), texture(diffuse1, v_TexCoords) * u_Alpha, 0.2);
+	else
+		FragColor =  texture(diffuse0, v_TexCoords);
 }

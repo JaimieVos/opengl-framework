@@ -20,10 +20,11 @@ private:
 	std::shared_ptr<Shader> m_Shader;
 	std::shared_ptr<Mesh> m_Mesh;
 
-	Camera m_Camera{ glm::vec3(0.0f, 0.0f, 3.0f) };
+	Camera m_Camera{ glm::vec3(0.0f, 0.0f, 5.0f) };
 	glm::mat4 m_Projection;
 	glm::mat4 m_Model;
 	glm::mat4 m_View;
 
-	float m_Alpha = 0.2f;
+	float m_Alpha = 1.0f;
+	bool smiley = true;
 };
