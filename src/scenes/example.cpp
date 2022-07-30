@@ -8,30 +8,26 @@
 
 void ExampleScene::start()
 {
-	const Vertex vertices[]{
+	m_Camera.start();
+
+	std::vector<Vertex> vertices = {
 		Vertex { glm::vec3(-1.0, -1.0,  0.0), glm::vec3(0.0f, -1.0f,  0.0f), glm::vec2(0.0f, 0.0f) }, // Bottom left
-		Vertex { glm::vec3( 1.0, -1.0,  0.0), glm::vec3(0.0f, -1.0f,  0.0f), glm::vec2(1.0f, 0.0f) }, // Bottom right
-		Vertex { glm::vec3( 1.0,  1.0,  0.0), glm::vec3(0.0f, -1.0f,  0.0f), glm::vec2(1.0f, 1.0f) }, // Top right
+		Vertex { glm::vec3(1.0, -1.0,  0.0), glm::vec3(0.0f, -1.0f,  0.0f), glm::vec2(1.0f, 0.0f) }, // Bottom right
+		Vertex { glm::vec3(1.0,  1.0,  0.0), glm::vec3(0.0f, -1.0f,  0.0f), glm::vec2(1.0f, 1.0f) }, // Top right
 		Vertex { glm::vec3(-1.0,  1.0,  0.0), glm::vec3(0.0f, -1.0f,  0.0f), glm::vec2(0.0f, 1.0f) }, // Top left
 	};
 
-	const unsigned int indices[] = {
+	std::vector<unsigned int> indices = {
 		0, 1, 2,
 		0, 2, 3
 	};
 
-	const Texture textures[] {
+	std::vector<Texture> textures = {
 		Texture { "assets/textures/wall.jpg", ImageType::DIFFUSE, ImageFormat::JPG, 0 },
 		Texture { "assets/textures/smile.png", ImageType::DIFFUSE, ImageFormat::PNG, 1 }
 	};
 
-	std::vector<Vertex> verts(std::begin(vertices), std::end(vertices));
-	std::vector<unsigned int> ind(std::begin(indices), std::end(indices));
-	std::vector<Texture> tex(std::begin(textures), std::end(textures));
-
-	m_Mesh = std::make_shared<Mesh>(verts, ind, tex);
-
-	m_Camera.start();
+	m_Mesh = std::make_shared<Mesh>(vertices, indices, textures);
 
 	m_Shader = std::make_shared<Shader>("assets/shaders/vertex_shader.vert", "assets/shaders/fragment_shader.frag");
 }
