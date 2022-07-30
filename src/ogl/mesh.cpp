@@ -47,7 +47,7 @@ void Mesh::setupMesh()
 	vbo.data(&m_Vertices[0], static_cast<unsigned int>(m_Vertices.size() * sizeof(Vertex)));
 
 	VertexBufferLayout vbl;
-	vbl.push<float>(2);
+	vbl.push<float>(3);
 	vbl.push<float>(3);
 	vbl.push<float>(2);
 

@@ -9,15 +9,15 @@
 void ExampleScene::start()
 {
 	const Vertex vertices[]{
-		Vertex { glm::vec2(0.5f, 0.5f),   glm::vec3(0.25f, 0.25f, 0.25f), glm::vec2(1.0f, 1.0f) },
-		Vertex { glm::vec2(0.5f, -0.5f),  glm::vec3(0.50f, 0.50f, 0.50f), glm::vec2(1.0f, 0.0f) },
-		Vertex { glm::vec2(-0.5f, -0.5f), glm::vec3(0.75f, 0.75f, 0.75f), glm::vec2(0.0f, 0.0f) },
-		Vertex { glm::vec2(-0.5f, 0.5f),  glm::vec3(1.0f,   1.0f,  1.0f), glm::vec2(0.0f, 1.0f) }
+		Vertex { glm::vec3(-1.0, -1.0,  0.0), glm::vec3(0.0f, -1.0f,  0.0f), glm::vec2(0.0f, 0.0f) }, // Bottom left
+		Vertex { glm::vec3( 1.0, -1.0,  0.0), glm::vec3(0.0f, -1.0f,  0.0f), glm::vec2(1.0f, 0.0f) }, // Bottom right
+		Vertex { glm::vec3( 1.0,  1.0,  0.0), glm::vec3(0.0f, -1.0f,  0.0f), glm::vec2(1.0f, 1.0f) }, // Top right
+		Vertex { glm::vec3(-1.0,  1.0,  0.0), glm::vec3(0.0f, -1.0f,  0.0f), glm::vec2(0.0f, 1.0f) }, // Top left
 	};
 
 	const unsigned int indices[] = {
-		0, 1, 3,
-		1, 2, 3
+		0, 1, 2,
+		0, 2, 3
 	};
 
 	const Texture textures[] {
@@ -39,7 +39,7 @@ void ExampleScene::start()
 void ExampleScene::update(const float dt)
 {
 	glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
-	glClear(GL_COLOR_BUFFER_BIT);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	m_Camera.update(dt);
 
