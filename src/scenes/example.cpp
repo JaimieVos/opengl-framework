@@ -9,25 +9,8 @@
 void ExampleScene::start()
 {
 	m_Camera.start();
-
-	std::vector<Vertex> vertices = {
-		Vertex { glm::vec3(-1.0, -1.0,  0.0), glm::vec3(0.0f, -1.0f,  0.0f), glm::vec2(0.0f, 0.0f) }, // Bottom left
-		Vertex { glm::vec3(1.0, -1.0,  0.0), glm::vec3(0.0f, -1.0f,  0.0f), glm::vec2(1.0f, 0.0f) }, // Bottom right
-		Vertex { glm::vec3(1.0,  1.0,  0.0), glm::vec3(0.0f, -1.0f,  0.0f), glm::vec2(1.0f, 1.0f) }, // Top right
-		Vertex { glm::vec3(-1.0,  1.0,  0.0), glm::vec3(0.0f, -1.0f,  0.0f), glm::vec2(0.0f, 1.0f) }, // Top left
-	};
-
-	std::vector<unsigned int> indices = {
-		0, 1, 2,
-		0, 2, 3
-	};
-
-	std::vector<Texture> textures = {
-		Texture { "assets/textures/wall.jpg", ImageType::DIFFUSE, ImageFormat::JPG, 0 },
-		Texture { "assets/textures/smile.png", ImageType::DIFFUSE, ImageFormat::PNG, 1 }
-	};
-
-	m_Mesh = std::make_shared<Mesh>(vertices, indices, textures);
+	
+	m_Object = std::make_shared<Model>("assets/models/backpack/backpack.obj");
 
 	m_Shader = std::make_shared<Shader>("assets/shaders/vertex_shader.vert", "assets/shaders/fragment_shader.frag");
 }
@@ -49,18 +32,11 @@ void ExampleScene::update(const float dt)
 	m_Shader->setMatrix4f("u_View", m_View);
 
 	m_Model = glm::mat4(1.0f);
+	m_Model = glm::scale(m_Model, glm::vec3(0.1f));
+	m_Model = glm::rotate(m_Model, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
 	m_Shader->setMatrix4f("u_Model", m_Model);
-
-	m_Shader->setFloat("u_Alpha", m_Alpha);
-	m_Shader->setInt("u_Smiley", smiley);
-
-	ImGui::Begin("Properties");
-	ImGui::Checkbox("Smiley texture", &smiley);
-	if (smiley)
-		ImGui::SliderFloat("Alpha", &m_Alpha, 0, 1);
-	ImGui::End();
-
-	m_Mesh->draw(*m_Shader);
+	
+	m_Object->draw(*m_Shader);
 }
 
 void ExampleScene::onMousePositionChange(GLFWwindow* window, const double xPos, const double yPos)

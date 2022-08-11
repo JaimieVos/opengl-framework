@@ -9,7 +9,8 @@ set(CXX_EXTENSIONS OFF)
 file(GLOB_RECURSE sources
     "src/*.h"
     "src/*.cpp"
-    "assets/*.*"
+	"assets/*.vert"
+	"assets/*.frag"
 )
 
 add_executable(opengl-framework ${sources})

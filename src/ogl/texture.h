@@ -1,10 +1,6 @@
 #pragma once
 
-enum ImageFormat
-{
-	PNG,
-	JPG
-};
+#include <string>
 
 enum ImageType
 {
@@ -17,7 +13,10 @@ const char* imageTypeToString(const ImageType imageType);
 class Texture
 {
 public:
-	Texture(const char* path, const ImageType imageType, const ImageFormat imageFormat, const unsigned int textureUnit);
+	std::string m_Path;
+
+public:
+	Texture(const char* path, const ImageType imageType, const unsigned int textureUnit);
 
 	void bind() const;
 	void unbind() const;

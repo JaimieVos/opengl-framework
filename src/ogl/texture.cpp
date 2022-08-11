@@ -5,7 +5,7 @@
 
 #include "util/logger.h"
 
-Texture::Texture(const char* path, const ImageType imageType, const ImageFormat imageFormat, const unsigned int textureUnit)
+Texture::Texture(const char* path, const ImageType imageType, const unsigned int textureUnit)
 	: m_ImageType(imageType), m_TextureUnit(textureUnit)
 {
 	glGenTextures(1, &m_Id);
@@ -21,15 +21,26 @@ Texture::Texture(const char* path, const ImageType imageType, const ImageFormat 
 	unsigned char* data = stbi_load(path, &width, &height, &nrChannels, 0);
 	if (data)
 	{
-		if (imageFormat == ImageFormat::JPG)
-			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
-		else if (imageFormat == ImageFormat::PNG)
-			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+		GLenum format;
+		if (nrChannels == 1)
+			format = GL_RED;
+		else if (nrChannels == 3)
+			format = GL_RGB;
+		else if (nrChannels == 4)
+			format = GL_RGBA;
+		else
+		{
+			logger::error("Failed to load texture: " + std::string(path));
+			stbi_image_free(data);
+			return;
+		}
+
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, format, GL_UNSIGNED_BYTE, data);
 		glGenerateMipmap(GL_TEXTURE_2D);
 	}
 	else
 	{
-		logger::error("Failed to load texture");
+		logger::error("Failed to load texture: " + std::string(path));
 	}
 
 	stbi_image_free(data);

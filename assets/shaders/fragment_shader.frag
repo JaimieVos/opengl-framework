@@ -2,19 +2,26 @@
 
 in vec3 v_Normal;
 in vec2 v_TexCoords;
+in vec3 v_FragPos;
 
 out vec4 FragColor;
 
-uniform float u_Alpha;
-uniform bool u_Smiley;
-
 uniform sampler2D diffuse0;
-uniform sampler2D diffuse1;
 
 void main()
 {
-	if (u_Smiley)
-		FragColor = mix(texture(diffuse0, v_TexCoords), texture(diffuse1, v_TexCoords) * u_Alpha, 0.2);
-	else
-		FragColor =  texture(diffuse0, v_TexCoords);
+	vec3 lightPos = vec3(1.0, 0.5, 1.0);
+	vec3 lightColor = vec3(1.0, 1.0, 1.0);
+
+	// Ambient lighting
+	float ambientStrength = 0.1;
+	vec3 ambient = ambientStrength * lightColor;
+
+	// Diffuse lighting
+	vec3 norm = normalize(v_Normal);
+	vec3 lightDir = normalize(lightPos - v_FragPos);
+	float diff = max(dot(norm, lightDir), 0.0);
+    vec3 diffuse = diff * lightColor * 10;
+	
+	FragColor = vec4(ambient * diffuse, 1) * texture(diffuse0, v_TexCoords);
 }
