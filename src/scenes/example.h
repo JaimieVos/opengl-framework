@@ -24,4 +24,9 @@ private:
 	glm::mat4 m_Projection;
 	glm::mat4 m_Model;
 	glm::mat4 m_View;
+
+	bool m_IsGuiOpen = true;
+
+private:
+	void drawUI();
 };

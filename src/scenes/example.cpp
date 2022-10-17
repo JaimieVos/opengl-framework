@@ -37,6 +37,8 @@ void ExampleScene::update(const float dt)
 	m_Shader->setMatrix4f("u_Model", m_Model);
 	
 	m_Object->draw(*m_Shader);
+
+	drawUI();
 }
 
 void ExampleScene::onMousePositionChange(GLFWwindow* window, const double xPos, const double yPos)
@@ -47,4 +49,33 @@ void ExampleScene::onMousePositionChange(GLFWwindow* window, const double xPos, 
 void ExampleScene::onMouseScroll(GLFWwindow* window, const double xOffset, const double yOffset)
 {
 	m_Camera.processMouseScroll(yOffset);
+}
+
+void ExampleScene::drawUI()
+{
+	ImGui::Begin("OpenGL Framework", &m_IsGuiOpen, ImGuiWindowFlags_NoSavedSettings);
+	ImGui::SetWindowSize(ImVec2(350, SCREEN_HEIGHT - (SCREEN_HEIGHT / 3)));
+
+	if (ImGui::CollapsingHeader("Rendering", NULL))
+	{
+
+	}
+
+	if (ImGui::CollapsingHeader("Application info", ImGuiTreeNodeFlags_DefaultOpen))
+	{
+		ImGui::Text("OpenGL Version:");
+		ImGui::Text(reinterpret_cast<const char*>(glGetString(GL_VERSION)));
+		ImGui::Text("\nHardware info:");
+		ImGui::Text(reinterpret_cast<const char*>(glGetString(GL_RENDERER)));
+		ImGui::Text("\nFramerate %.2f FPS / Frametime %.4f ms", ImGui::GetIO().Framerate, 1000.0f / ImGui::GetIO().Framerate);
+	}
+
+	if (ImGui::CollapsingHeader("About", ImGuiTreeNodeFlags_DefaultOpen))
+	{
+		ImGui::Text("OpenGL Framework by Jaimie Vos");
+		ImGui::Text("E-mail:  jaimie.vos@outlook.com");
+		ImGui::Text("Twitter: @JaimieVos");
+	}
+
+	ImGui::End();
 }

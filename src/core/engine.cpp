@@ -49,9 +49,7 @@ void Engine::init(const char* title, const std::shared_ptr<Scene>& scene)
 	glfwMakeContextCurrent(m_Window);
 	glfwSwapInterval(0);
 
-	glEnable(GL_BLEND);
 	glEnable(GL_DEPTH_TEST);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	glfwSetFramebufferSizeCallback(m_Window, framebufferSizeCallback);
 	glfwSetCursorPosCallback(m_Window, mouseCursorPositionCallback);
@@ -73,8 +71,6 @@ void Engine::init(const char* title, const std::shared_ptr<Scene>& scene)
 
 	ImGui_ImplGlfw_InitForOpenGL(m_Window, true);
 	ImGui_ImplOpenGL3_Init(GLSL_VERSION);
-
-	ImGui::StyleColorsClassic();
 
 	m_Scene = scene;
 
