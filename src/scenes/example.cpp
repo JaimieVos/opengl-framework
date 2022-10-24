@@ -3,16 +3,28 @@
 #include <GL/glew.h>
 #include <glm/gtc/matrix_transform.hpp>
 #include <imgui.h>
+#include <stb_image.h>
 
-#include "ogl/texture.h"
+#include <vector>
+#include <string>
+
+std::vector<std::string> faces = {
+	"assets/skybox/right.jpg",
+	"assets/skybox/left.jpg",
+	"assets/skybox/bottom.jpg",
+	"assets/skybox/top.jpg",
+	"assets/skybox/front.jpg",
+	"assets/skybox/back.jpg"
+};
 
 void ExampleScene::start()
 {
 	m_Camera.start();
 	
 	m_Object = std::make_shared<Model>("assets/models/backpack/backpack.obj");
-
 	m_Shader = std::make_shared<Shader>("assets/shaders/vertex_shader.vert", "assets/shaders/fragment_shader.frag");
+
+	m_Skybox = std::make_shared<Skybox>(faces);
 }
 
 void ExampleScene::update(const float dt)
@@ -34,9 +46,11 @@ void ExampleScene::update(const float dt)
 	m_Model = glm::mat4(1.0f);
 	m_Model = glm::scale(m_Model, glm::vec3(0.1f));
 	m_Model = glm::rotate(m_Model, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+	m_Model = glm::rotate(m_Model, glm::radians(160.0f), glm::vec3(0.0f, 0.0f, 1.0f));
 	m_Shader->setMatrix4f("u_Model", m_Model);
 	
 	m_Object->draw(*m_Shader);
+	m_Skybox->draw(glm::mat4(glm::mat3(m_Camera.getViewMatrix())), m_Projection);
 
 	drawUI();
 }

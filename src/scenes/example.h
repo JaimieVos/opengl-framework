@@ -2,8 +2,9 @@
 
 #include "core/scene.h"
 #include "core/engine.h"
-#include "ogl/shader.h"
-#include "ogl/model.h"
+#include "rendering/shader.h"
+#include "rendering/model.h"
+#include "rendering/skybox.h"
 
 #include <memory>
 #include <glm/glm.hpp>
@@ -19,6 +20,7 @@ public:
 private:
 	std::shared_ptr<Shader> m_Shader;
 	std::shared_ptr<Model> m_Object;
+	std::shared_ptr<Skybox> m_Skybox;
 
 	Camera m_Camera{ glm::vec3(0.0f, 1.0f, 6.0f) };
 	glm::mat4 m_Projection;

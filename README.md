@@ -16,3 +16,6 @@ cmake --build .
 - Image loading: [stb](https://github.com/nothings/stb)
 - GUI: [Dear ImGui](https://github.com/ocornut/imgui)
 - Loading 3D objects: [Assimp](https://github.com/assimp/assimp/)
+
+## Screenshot
+![Screenshot of the OpenGL Framework](https://i.imgur.com/ewOL989.png)
