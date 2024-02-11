@@ -10,7 +10,7 @@ uniform sampler2D diffuse0;
 
 void main()
 {
-	vec3 lightPos = vec3(5.0, 0.0, 5ai.0);
+	vec3 lightPos = vec3(5.0, 0.0, 5.0);
 	vec3 lightColor = vec3(1.0, 1.0, 1.0);
 	
 	// Ambient lighting
